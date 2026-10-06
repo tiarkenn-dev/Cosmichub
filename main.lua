@@ -1,5 +1,5 @@
 -- =========================================================
--- SECTION 1/14 : LOADING GALAXY + CONFIG + STATE (LENGKAP)
+-- SECTION 1/15 : LOADING GALAXY + CONFIG + STATE (LENGKAP)
 -- =========================================================
 
 Players = game:GetService("Players")
@@ -390,9 +390,9 @@ _G.RoooorS = _G.RoooorS or {
     WalkSpeed = false, WalkSpeedVal = 16, WalkSpeedBoost = 0,
     SpeedHack = false, SpeedHackVal = 40,
     NoClip = false, NoClipCamera = false,
-    Korblox = false, KorbloxType = "Pencil",
+    Korblox = true, KorbloxType = "Pencil",
     KorbloxYOffset = 0.80, KorbloxScale = 1,
-    Headless = false,
+    Headless = true,
     EightBitOn = false, EightBitType = "Royal Crown",
     EightBitSize = 1.24, EightBitHeight = 0.88,
     Trail = false, TrailColor = Color3.fromRGB(120, 60, 255),
@@ -422,9 +422,9 @@ _G.RoooorS = _G.RoooorS or {
     HDDepthField = false, HDAntiAliasing = false,
     FireBeamOn = false, FireBeamType = "Classic Beam",
     FireBeamColor = Color3.fromRGB(120, 60, 255),
-    ESPNameMode = "Text", ESPNameSize = 9.35,
-    ESPGenMode = "Classic",
-    ESPGenBarSize = 80, ESPGenBarHeight = 14, ESPGenBarTextSize = 10,
+    ESPNameMode = "Galaxy", ESPNameSize = 8,
+    ESPGenMode = "Bar",
+    ESPGenBarSize = 64, ESPGenBarHeight = 8, ESPGenBarTextSize = 10,
     KillFeed = false, StunNotify = false,
     AutoEscapeGate = false, AutoEscapeRange = 50,
     AutoEscapeUseKillerCheck = true, AutoEscapeUseGenCheck = true,
@@ -434,12 +434,25 @@ S = _G.RoooorS
 FPSPingConfig = _G.Roooor_FPSPing or { Size = 1, X = 0, Y = 0 }
 _G.Roooor_FPSPing = FPSPingConfig
 
-_G.ToggleStates = _G.ToggleStates or {}
-_G.SliderStates = _G.SliderStates or {}
-_G.DropdownStates = _G.DropdownStates or {}
+_G.ToggleStates = _G.ToggleStates or {
+    ["ESP Survivor"] = true,
+    ["ESP Killer"] = true,
+    ["ESP Generator"] = true,
+    ["Enable Korblox"] = true,
+    ["Headless"] = true,
+}
+_G.SliderStates = _G.SliderStates or {
+    ["Name Size"] = 8,
+    ["Bar Width"] = 64,
+    ["Bar Height"] = 8,
+}
+_G.DropdownStates = _G.DropdownStates or {
+    ["Generator Mode"] = 2,
+    ["Name Mode"] = 2,
+}
 
 ESP = _G.Roooor_ESP or {
-    Survivor = false, Killer = false, Generator = false,
+    Survivor = true, Killer = true, Generator = true,
     Pallet = false, Window = false, SCP = false, Distance = 1000,
 }
 _G.Roooor_ESP = ESP
@@ -539,9 +552,9 @@ Aimlock_AttackButtons = {}
 HitboxESPObjects = {}
 HitboxOriginalSizes = {}
 
-print("✅ [1/14] COSMIC - Base + State Loaded")
+print("✅ [1/15] COSMIC - Base + State Loaded")
 print("🔦 Aimbot Senter: PENCET = LOCK | GAK PENCET = BEBAS")-- =========================================================
--- SECTION 2/14 : FIRE CONFIG + SKY + KILLER ANIMS
+-- SECTION 2/15 : FIRE CONFIG + SKY + KILLER ANIMS
 -- =========================================================
 
 FireList = {
@@ -656,6 +669,7 @@ SkyIds = {
     DeepSpace = { Bk = "rbxassetid://17817511804", Dn = "rbxassetid://17817520184", Ft = "rbxassetid://17817511804", Lf = "rbxassetid://17817511804", Rt = "rbxassetid://17817511804", Up = "rbxassetid://17817511804" },
 }
 
+-- KILLER ANIMS (28 ID)
 KillerAnims = {}
 for _, id in ipairs({
     "105374834496520","113255068724446","118907603246885","129784271201071",
@@ -678,8 +692,8 @@ SkipAnims = {
     ["127096285501517"] = "Parry Anim",
 }
 
-print("✅ [2/14] COSMIC - Fire + Sky + KillerAnims Loaded")-- =========================================================
--- SECTION 3/14 : FUNGSI UTAMA + HD SKY + FPS/PING
+print("✅ [2/15] COSMIC - Fire + Sky + KillerAnims Loaded")-- =========================================================
+-- SECTION 3/15 : FUNGSI UTAMA + HD SKY + FPS/PING
 -- =========================================================
 
 function saveState(key, value)
@@ -1243,8 +1257,8 @@ function updateFPSPing()
 end
 _G.Roooor_updateFPSPing = updateFPSPing
 
-print("✅ [3/14] COSMIC - Fungsi Utama + HD Sky + FPS/Ping Loaded")-- =========================================================
--- SECTION 4/14 : ESP + AUTO PARRY + AIMBOT SENTER
+print("✅ [3/15] COSMIC - Fungsi Utama + HD Sky + FPS/Ping Loaded")-- =========================================================
+-- SECTION 4/15 : ESP + AUTO PARRY + AIMBOT SENTER
 -- =========================================================
 
 ESPObjects = {}
@@ -1567,8 +1581,8 @@ function UpdateGenerator(generator)
             return
         end
 
-        local barSize = S.ESPGenBarSize or 80
-        local barHeight = S.ESPGenBarHeight or 14
+        local barSize = S.ESPGenBarSize or 64
+        local barHeight = S.ESPGenBarHeight or 8
         local textSize = S.ESPGenBarTextSize or 10
 
         local billboard = generator:FindFirstChild("GenESPBar")
@@ -1611,6 +1625,8 @@ function UpdateGenerator(generator)
             pctText.TextColor3 = Color3.fromRGB(255, 255, 255)
             pctText.TextSize = textSize
             pctText.Font = Enum.Font.GothamBold
+            pctText.TextXAlignment = Enum.TextXAlignment.Center
+            pctText.TextYAlignment = Enum.TextYAlignment.Center
             pctText.TextStrokeTransparency = 0.2
             pctText.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
             pctText.ZIndex = 10
@@ -1718,7 +1734,7 @@ local _AP_lastParry = 0
 local function AP_TryParry(reason)
     local now = tick()
     local bypass = reason == "BASIC ATTACK" or reason == "ABYSS SLASH" or reason == "MASKED CHAINSAW" or reason == "HIDDEN BASIC" or reason == "PREDICTIVE"
-    local debounce = bypass and 0.02 or AP_Config.Debounce
+    local debounce = bypass and 0.015 or AP_Config.Debounce
     if now - _AP_lastParry > debounce then
         _AP_lastParry = now
         AP_PressParryButton()
@@ -1888,7 +1904,8 @@ function ScanSenterButtons()
     for _, obj in pairs(PG:GetDescendants()) do
         if obj:IsA("GuiObject") and obj.Visible then
             local n = string.lower(obj.Name)
-            if n:find("flashlight") or n:find("senter") or n:find("light") or n:find("torch") or n:find("flash") then
+            if n:find("flashlight") or n:find("senter") or n:find("light") or n:find("torch") or n:find("flash")
+               or n:find("dagger") or n:find("knife") or n:find("blade") then
                 table.insert(buttons, obj)
             end
         end
@@ -2100,8 +2117,9 @@ function AP_UpdateCircle()
     end
 end
 
-print("✅ [4/14] COSMIC - ESP + Auto Parry + Aimbot Senter")-- =========================================================
--- SECTION 5/14 : FITUR AKTIF + LOOP UTAMA
+print("✅ [4/15] COSMIC - ESP + Auto Parry + Aimbot Senter")
+print("🔦 Aimbot Senter: PENCET = LOCK | GAK PENCET = BEBAS")-- =========================================================
+-- SECTION 5/15 : FITUR AKTIF + LOOP UTAMA
 -- =========================================================
 
 RunService.RenderStepped:Connect(function()
@@ -2905,8 +2923,8 @@ task.spawn(function()
     end
 end)
 
-print("✅ [5/14] COSMIC - Fitur Aktif + Loop Utama Loaded")-- =========================================================
--- SECTION 6/14 : GUI COSMIC + TOMBOL + PANEL
+print("✅ [5/15] COSMIC - Fitur Aktif + Loop Utama Loaded")-- =========================================================
+-- SECTION 6/15 : GUI COSMIC + TOMBOL + PANEL
 -- =========================================================
 
 gui = Instance.new("ScreenGui")
@@ -3620,8 +3638,8 @@ closeBtn.MouseButton1Click:Connect(function()
     playToggleSound()
 end)
 
-print("✅ [6/14] COSMIC - GUI + Tombol + Panel Loaded")-- =========================================================
--- SECTION 7/14 : TAB UI PART 1
+print("✅ [6/15] COSMIC - GUI + Tombol + Panel Loaded")-- =========================================================
+-- SECTION 7/15 : TAB UI PART 1
 -- =========================================================
 
 sec = _G.Roooor_sec
@@ -3804,15 +3822,15 @@ end)
 -- TAB 3: ESP
 makeTab("ESP", "👁️", 3, function()
     sec("Player ESP", "🟢")
-    tog("ESP Survivor", false, function(s) ESP.Survivor = s end)
+    tog("ESP Survivor", true, function(s) ESP.Survivor = s end)
     cpk("Survivor Color", TeamColors.Survivor, function(c) TeamColors.Survivor = c end)
-    tog("ESP Killer", false, function(s) ESP.Killer = s end)
+    tog("ESP Killer", true, function(s) ESP.Killer = s end)
     cpk("Killer Color", TeamColors.Killer, function(c) TeamColors.Killer = c end)
 
     sec("Object ESP", "⚡")
-    tog("ESP Generator", false, function(s) ESP.Generator = s end)
+    tog("ESP Generator", true, function(s) ESP.Generator = s end)
     cpk("Gen Color", GeneratorColor, function(c) GeneratorColor = c end)
-    drp("Generator Mode", {"Classic", "Bar"}, "Classic", function(v)
+    drp("Generator Mode", {"Classic", "Bar"}, "Bar", function(v)
         S.ESPGenMode = v
         for gen in pairs(Cached.Generators) do
             local a = gen:FindFirstChild("GenESP")
@@ -3821,8 +3839,8 @@ makeTab("ESP", "👁️", 3, function()
             if b then b:Destroy() end
         end
     end)
-    sl("Bar Width", 40, 200, 80, function(v) S.ESPGenBarSize = v end)
-    sl("Bar Height", 8, 40, 14, function(v) S.ESPGenBarHeight = v end)
+    sl("Bar Width", 40, 200, 64, function(v) S.ESPGenBarSize = v end)
+    sl("Bar Height", 8, 40, 8, function(v) S.ESPGenBarHeight = v end)
     sl("Text Size", 6, 30, 10, function(v) S.ESPGenBarTextSize = v end)
     tog("ESP Pallet", false, function(s) ESP.Pallet = s end)
     cpk("Pallet Color", PalletColor, function(c) PalletColor = c end)
@@ -3842,10 +3860,10 @@ makeTab("ESP", "👁️", 3, function()
     sl("Status Radius", 20, 1000, 1000, function(v) ESPStatus.Radius = v end)
 
     sec("Nama Mode", "✨")
-    drp("Name Mode", {"Text", "Galaxy"}, "Text", function(v)
+    drp("Name Mode", {"Text", "Galaxy"}, "Galaxy", function(v)
         S.ESPNameMode = v
     end)
-    sl("Name Size", 8, 30, 9.35, function(v)
+    sl("Name Size", 8, 30, 8, function(v)
         S.ESPNameSize = v
     end)
 end)
@@ -3937,8 +3955,8 @@ makeTab("Moonwalk", "🕺", 5, function()
     tog("Use Slow Speed", true, function(s) Moonwalk.UseSlow = s end)
 end)
 
-print("✅ [7/14] COSMIC - Tab UI Part 1 Loaded")-- =========================================================
--- SECTION 8/14 : TAB UI PART 2
+print("✅ [7/15] COSMIC - Tab UI Part 1 Loaded")-- =========================================================
+-- SECTION 8/15 : TAB UI PART 2
 -- =========================================================
 
 sec = _G.Roooor_sec
@@ -4027,7 +4045,7 @@ makeTab("Misc", "⚙️", 7, function()
     end)
 
     sec("Character", "🎭")
-    tog("Headless", false, function(s)
+    tog("Headless", true, function(s)
         S.Headless = s
         applyHeadless(s)
     end)
@@ -4108,7 +4126,7 @@ makeTab("Visual", "✨", 9, function()
     end)
 
     sec("Korblox Pencil", "🦴")
-    tog("Enable Korblox", false, function(s)
+    tog("Enable Korblox", true, function(s)
         S.Korblox = s
         applyKorblox(s, "Pencil", S.KorbloxYOffset, S.KorbloxScale)
     end)
@@ -4238,8 +4256,8 @@ makeTab("Hitbox", "📦", 10, function()
     end)
 end)
 
-print("✅ [8/14] COSMIC - Tab UI Part 2 Loaded")-- =========================================================
--- SECTION 9/14 : KEYBIND + CAMERA FIX + ANTI-ILANG MENU
+print("✅ [8/15] COSMIC - Tab UI Part 2 Loaded")-- =========================================================
+-- SECTION 9/15 : KEYBIND + CAMERA FIX + ANTI-ILANG MENU
 -- =========================================================
 
 -- KEYBIND V UNTUK MOONWALK
@@ -4510,9 +4528,9 @@ task.spawn(function()
     end
 end)
 
-print("✅ [9/14] COSMIC - Keybind + Camera Fix + Anti-Ilang Menu")
+print("✅ [9/15] COSMIC - Keybind + Camera Fix + Anti-Ilang Menu")
 print("⌨️ Keybind: V = Moonwalk | K = Unlock Camera")-- =========================================================
--- SECTION 10/14 : LOGIC FITUR BARU + FIX FOV BIND
+-- SECTION 10/15 : LOGIC FITUR BARU + FIX FOV BIND
 -- =========================================================
 
 -- AUTO WIGGLE LOOP
@@ -4776,8 +4794,8 @@ task.spawn(function()
     end
 end)
 
-print("✅ [10/14] COSMIC - Logic Fitur Baru Loaded")-- =========================================================
--- SECTION 11/14 : PRINT FINAL
+print("✅ [10/15] COSMIC - Logic Fitur Baru Loaded")-- =========================================================
+-- SECTION 11/15 : PRINT FINAL
 -- =========================================================
 task.wait(0.5)
 
@@ -4856,9 +4874,9 @@ print("╠═══════════════════════�
 print("║  Buka menu: Klik tombol C                ║")
 print("╚══════════════════════════════════════════╝")
 
-print("✅ [11/14] COSMIC - FINAL LOADED!")
+print("✅ [11/15] COSMIC - FINAL LOADED!")
 print("🎯 Klik tombol C untuk buka menu")-- =========================================================
--- SECTION 12/14 : AIMBOT TAB (KILLER AIMLOCK)
+-- SECTION 12/15 : AIMBOT TAB (KILLER AIMLOCK)
 -- =========================================================
 
 sec = _G.Roooor_sec
@@ -5060,6 +5078,13 @@ function Aimlock_CreateFloatingGUI()
     hdrCorner.CornerRadius = UDim.new(0, 14)
     hdrCorner.Parent = hdr
 
+    local hdrPatch = Instance.new("Frame")
+    hdrPatch.Size = UDim2.new(1, 0, 0, 14)
+    hdrPatch.Position = UDim2.new(0, 0, 1, -14)
+    hdrPatch.BackgroundColor3 = Color3.fromRGB(60, 15, 25)
+    hdrPatch.BorderSizePixel = 0
+    hdrPatch.Parent = hdr
+
     local ttl = Instance.new("TextLabel")
     ttl.Size = UDim2.new(1, -40, 1, 0)
     ttl.Position = UDim2.new(0, 10, 0, 0)
@@ -5167,8 +5192,8 @@ makeTab("Aimbot", "🎯", 6, function()
     end)
 end)
 
-print("✅ [12/14] COSMIC - AIMBOT TAB Loaded")-- =========================================================
--- SECTION 13/14 : ANTI-ILANG MENU + AUTO RECOVERY
+print("✅ [12/15] COSMIC - AIMBOT TAB Loaded")-- =========================================================
+-- SECTION 13/15 : ANTI-ILANG MENU + AUTO RECOVERY
 -- =========================================================
 
 pcall(function()
@@ -5303,7 +5328,7 @@ print("  ✅ Auto re-execute kalo GUI ilang total")
 print("  ✅ Menu restored pas respawn")
 print("  ✅ Menu restored pas pindah place")
 print("═══════════════════════════════════════════")
-print("✅ [13/14] ANTI-ILANG MENU LOADED")
+print("✅ [13/15] ANTI-ILANG MENU LOADED")
 print("")
 print("🎯 Klik tombol C untuk buka menu")
 print("🛡️ Auto Parry: Tab Survivor")
@@ -5311,7 +5336,7 @@ print("🔦 Aimbot Senter: PENCET = LOCK | GAK PENCET = BEBAS")
 print("🦴 Korblox: Tab Visual (Mesh 902942096 | Offset 0.80)")
 print("👤 Headless: Tab Misc / Visual (FULL)")
 print("")-- =========================================================
--- SECTION 14/14 : FINAL FIX (AUTO PARRY + CAMERA + MENU)
+-- SECTION 14/15 : FINAL FIX (AUTO PARRY + CAMERA + MENU)
 -- =========================================================
 
 -- ============================================
@@ -5416,7 +5441,7 @@ task.spawn(function()
     end
 end)
 
-print("✅ [14/14] Auto Parry - Triple Layer Loaded")
+print("✅ [14/15] Auto Parry - Triple Layer Loaded")
 
 -- ============================================
 -- 14.2 NO CAMERA LOCK - FORCE UNLOCK
@@ -5503,7 +5528,7 @@ LP.CharacterAdded:Connect(function(char)
     end
 end)
 
-print("✅ [14/14] No Camera Lock Loaded")
+print("✅ [14/15] No Camera Lock Loaded")
 
 -- ============================================
 -- 14.3 MENU PERMANEN - FORCE RECREATE
@@ -5573,13 +5598,228 @@ LP.CharacterAdded:Connect(function(char)
     pcall(ForceGUIV14)
 end)
 
-print("✅ [14/14] Menu Permanen Loaded")
+print("✅ [14/15] Menu Permanen Loaded")
 
 print("")
 print("═══════════════════════════════════════════")
-print("  ✅ [14/14] SECTION 14 LOADED")
+print("  ✅ [14/15] SECTION 14 LOADED")
 print("  🛡️ Auto Parry: TRIPLE LAYER")
 print("  📷 No Camera Lock: FORCE UNLOCK")
 print("  🖥️  Menu Permanen: FORCE RECREATE")
+print("═══════════════════════════════════════════")
+print("")-- =========================================================
+-- SECTION 15/15 : AIMBOT SENTER FIX + AUTO-ON
+-- =========================================================
+
+-- ============================================
+-- 15.1 AIMBOT SENTER (PENCET DAGGER = LOCK)
+-- ============================================
+AimbotSenter.HoldingSenter = false
+AimbotSenter.CurrentTarget = nil
+AimbotSenter._Hooked = {}
+
+function ScanSenterButtonsV15()
+    local buttons = {}
+    for _, obj in pairs(PG:GetDescendants()) do
+        if obj:IsA("GuiObject") and obj.Visible then
+            local n = string.lower(obj.Name)
+            if n:find("dagger") or n:find("flashlight") or n:find("senter")
+               or n:find("light") or n:find("torch") or n:find("flash")
+               or n:find("knife") or n:find("blade") then
+                table.insert(buttons, obj)
+            end
+        end
+    end
+    return buttons
+end
+
+function HookSenterV15()
+    local buttons = ScanSenterButtonsV15()
+    print("[SENTER] Ketemu " .. #buttons .. " tombol")
+    for _, obj in ipairs(buttons) do
+        if AimbotSenter._Hooked[obj] then continue end
+        AimbotSenter._Hooked[obj] = true
+        print("[SENTER] Hook: " .. obj:GetFullName())
+
+        obj.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1
+               or input.UserInputType == Enum.UserInputType.Touch then
+                AimbotSenter.HoldingSenter = true
+                print("[SENTER] HOLD = LOCK")
+            end
+        end)
+
+        obj.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1
+               or input.UserInputType == Enum.UserInputType.Touch then
+                AimbotSenter.HoldingSenter = false
+                AimbotSenter.CurrentTarget = nil
+                print("[SENTER] RELEASE = BEBAS")
+            end
+        end)
+
+        obj.MouseLeave:Connect(function()
+            AimbotSenter.HoldingSenter = false
+            AimbotSenter.CurrentTarget = nil
+        end)
+    end
+end
+
+task.spawn(function()
+    while task.wait(0.01) do
+        if not AimbotSenter.Enabled then
+            if AimbotLaserGui then
+                for _, line in pairs(AimbotLaserLines) do
+                    if line then line:Remove() end
+                end
+                AimbotLaserLines = {}
+            end
+            continue
+        end
+
+        if not AimbotSenter.HoldingSenter then
+            AimbotSenter.CurrentTarget = nil
+            if AimbotLaserGui then
+                for _, line in pairs(AimbotLaserLines) do
+                    if line then line:Remove() end
+                end
+                AimbotLaserLines = {}
+            end
+            continue
+        end
+
+        local myRoot = getRoot()
+        if not myRoot then continue end
+
+        local closest = nil
+        local shortest = math.huge
+
+        for _, p in pairs(Players:GetPlayers()) do
+            if p ~= LP and p.Character and p.Team and p.Team.Name == "Killer" then
+                local hum = p.Character:FindFirstChildOfClass("Humanoid")
+                local targetPart = p.Character:FindFirstChild(AimbotSenter.LockPart or "Head")
+                if hum and hum.Health > 0 and targetPart then
+                    local dist = (targetPart.Position - myRoot.Position).Magnitude
+                    if dist < shortest then
+                        shortest = dist
+                        closest = targetPart
+                    end
+                end
+            end
+        end
+
+        if not closest then
+            AimbotSenter.CurrentTarget = nil
+            if AimbotLaserGui then
+                for _, line in pairs(AimbotLaserLines) do
+                    if line then line:Remove() end
+                end
+                AimbotLaserLines = {}
+            end
+            continue
+        end
+
+        AimbotSenter.CurrentTarget = closest
+        local cam = workspace.CurrentCamera
+        if cam then
+            local camPos = cam.CFrame.Position
+            local targetPos = closest.Position
+            local newCFrame = CFrame.new(camPos, targetPos)
+            cam.CFrame = cam.CFrame:Lerp(newCFrame, AimbotSenter.Smoothness or 0.5)
+        end
+
+        if AimbotSenter.ShowLaser then
+            local cam2 = workspace.CurrentCamera
+            local screenPoint, onScreen = cam2:WorldToViewportPoint(closest.Position)
+            if onScreen then
+                if AimbotLaserGui then
+                    for _, line in pairs(AimbotLaserLines) do
+                        if line then line:Remove() end
+                    end
+                    AimbotLaserLines = {}
+                end
+                local centerX = cam2.ViewportSize.X / 2
+                local centerY = cam2.ViewportSize.Y / 2
+                local line = Drawing.new("Line")
+                line.Visible = true
+                line.From = Vector2.new(centerX, centerY)
+                line.To = Vector2.new(screenPoint.X, screenPoint.Y)
+                line.Color = AimbotSenter.LaserColor or Color3.fromRGB(255, 0, 0)
+                line.Thickness = 2
+                line.Transparency = 0.5
+                table.insert(AimbotLaserLines, line)
+            end
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait(2) do
+        if AimbotSenter.Enabled then
+            pcall(HookSenterV15)
+        end
+    end
+end)
+
+print("✅ [15/15] Aimbot Senter: PENCET = LOCK")
+
+-- ============================================
+-- 15.2 AUTO-ON FITUR PAS EXECUTE
+-- ============================================
+task.spawn(function()
+    task.wait(3)
+
+    ESP.Killer = true
+    _G.ToggleStates["ESP Killer"] = true
+
+    ESP.Generator = true
+    _G.ToggleStates["ESP Generator"] = true
+
+    ESP.Survivor = true
+    _G.ToggleStates["ESP Survivor"] = true
+
+    S.ESPGenMode = "Bar"
+    _G.DropdownStates["Generator Mode"] = 2
+
+    S.ESPGenBarSize = 64
+    _G.SliderStates["Bar Width"] = 64
+
+    S.ESPGenBarHeight = 8
+    _G.SliderStates["Bar Height"] = 8
+
+    S.ESPNameSize = 8
+    _G.SliderStates["Name Size"] = 8
+
+    S.ESPNameMode = "Galaxy"
+    _G.DropdownStates["Name Mode"] = 2
+
+    S.Korblox = true
+    _G.ToggleStates["Enable Korblox"] = true
+    task.wait(0.3)
+    pcall(function() applyKorblox(true, "Pencil", 0.80, 1) end)
+
+    S.Headless = true
+    _G.ToggleStates["Headless"] = true
+    task.wait(0.3)
+    pcall(function() applyHeadless(true) end)
+
+    print("[AUTO-ON] ✅ Selesai!")
+    print("[AUTO-ON] - ESP Killer: ON")
+    print("[AUTO-ON] - ESP Generator: ON (Bar Mode)")
+    print("[AUTO-ON] - ESP Survivor: ON")
+    print("[AUTO-ON] - Bar Width: 64 | Bar Height: 8")
+    print("[AUTO-ON] - Name Size: 8")
+    print("[AUTO-ON] - Name Mode: Galaxy")
+    print("[AUTO-ON] - Korblox: ON")
+    print("[AUTO-ON] - Headless: ON")
+end)
+
+print("✅ [15/15] Auto-ON Fitur Loaded")
+
+print("")
+print("═══════════════════════════════════════════")
+print("  ✅ [15/15] SECTION 15 LOADED")
+print("  🔦 Aimbot Senter: PENCET = LOCK")
+print("  ⚡ Auto-ON: ESP + Korblox + Headless")
 print("═══════════════════════════════════════════")
 print("")
