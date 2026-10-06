@@ -1,5 +1,5 @@
 -- =========================================================
--- SECTION 1/13 : LOADING + CONFIG + STATE (LENGKAP)
+-- SECTION 1/14 : LOADING GALAXY + CONFIG + STATE (LENGKAP)
 -- =========================================================
 
 Players = game:GetService("Players")
@@ -72,7 +72,9 @@ function playToggleSound()
 end
 _G.Roooor_playSound = playToggleSound
 
+-- =========================================================
 -- LOADING GALAXY
+-- =========================================================
 local loadingGui = Instance.new("ScreenGui")
 loadingGui.Name = "CosmicLoading"
 loadingGui.ResetOnSpawn = false
@@ -377,7 +379,9 @@ task.delay(1.6, function()
     if loadingGui then loadingGui:Destroy() end
 end)
 
+-- =========================================================
 -- STATE LENGKAP
+-- =========================================================
 _G.RoooorSavedStates = _G.RoooorSavedStates or {}
 
 _G.RoooorS = _G.RoooorS or {
@@ -461,8 +465,8 @@ Hitbox = _G.Roooor_Hitbox or {
 _G.Roooor_Hitbox = Hitbox
 
 AutoParry = _G.Roooor_AutoParry or {
-    Enabled = false, ParryDistance = 15, ParryDelay = 0,
-    Cooldown = 0.5, FaceSensitivity = 0.3, RequireFacing = true,
+    Enabled = false, ParryDistance = 20, ParryDelay = 0,
+    Cooldown = 0.5, FaceSensitivity = 0.2, RequireFacing = true,
     Wiggle = false, WiggleSpam = 5,
 }
 _G.Roooor_AutoParry = AutoParry
@@ -474,7 +478,7 @@ AP_ESPCircle = {
     ColorDanger = Color3.fromRGB(255, 50, 50),
     Thickness = 0.4, Segments = 36, YOffset = -2.5
 }
-AP_PARRY_DEBOUNCE = 0.05
+AP_PARRY_DEBOUNCE = 0.02
 PARRY_DEBOUNCE = 0.1
 
 AimbotSenter = _G.Roooor_AimbotSenter or {
@@ -535,9 +539,9 @@ Aimlock_AttackButtons = {}
 HitboxESPObjects = {}
 HitboxOriginalSizes = {}
 
-print("✅ [1/13] COSMIC - Base + State Loaded")
+print("✅ [1/14] COSMIC - Base + State Loaded")
 print("🔦 Aimbot Senter: PENCET = LOCK | GAK PENCET = BEBAS")-- =========================================================
--- SECTION 2/13 : FIRE CONFIG + SKY + KILLER ANIMS
+-- SECTION 2/14 : FIRE CONFIG + SKY + KILLER ANIMS
 -- =========================================================
 
 FireList = {
@@ -652,7 +656,6 @@ SkyIds = {
     DeepSpace = { Bk = "rbxassetid://17817511804", Dn = "rbxassetid://17817520184", Ft = "rbxassetid://17817511804", Lf = "rbxassetid://17817511804", Rt = "rbxassetid://17817511804", Up = "rbxassetid://17817511804" },
 }
 
--- KILLER ANIMS (28 ID)
 KillerAnims = {}
 for _, id in ipairs({
     "105374834496520","113255068724446","118907603246885","129784271201071",
@@ -675,8 +678,8 @@ SkipAnims = {
     ["127096285501517"] = "Parry Anim",
 }
 
-print("✅ [2/13] COSMIC - Fire + Sky + KillerAnims Loaded")-- =========================================================
--- SECTION 3/13 : FUNGSI UTAMA + HD SKY + FPS/PING
+print("✅ [2/14] COSMIC - Fire + Sky + KillerAnims Loaded")-- =========================================================
+-- SECTION 3/14 : FUNGSI UTAMA + HD SKY + FPS/PING
 -- =========================================================
 
 function saveState(key, value)
@@ -1240,8 +1243,8 @@ function updateFPSPing()
 end
 _G.Roooor_updateFPSPing = updateFPSPing
 
-print("✅ [3/13] COSMIC - Fungsi Utama + HD Sky + FPS/Ping Loaded")-- =========================================================
--- SECTION 4/13 : ESP + AUTO PARRY V5 + AIMBOT SENTER
+print("✅ [3/14] COSMIC - Fungsi Utama + HD Sky + FPS/Ping Loaded")-- =========================================================
+-- SECTION 4/14 : ESP + AUTO PARRY + AIMBOT SENTER
 -- =========================================================
 
 ESPObjects = {}
@@ -1589,13 +1592,6 @@ function UpdateGenerator(generator)
             bbc.CornerRadius = UDim.new(1, 0)
             bbc.Parent = barBg
 
-            local bbStroke = Instance.new("UIStroke")
-            bbStroke.Name = "Border"
-            bbStroke.Thickness = 1
-            bbStroke.Color = Color3.fromRGB(120, 70, 200)
-            bbStroke.Transparency = 0.3
-            bbStroke.Parent = barBg
-
             local barFill = Instance.new("Frame")
             barFill.Name = "BarFill"
             barFill.Size = UDim2.new(0, 0, 1, 0)
@@ -1615,8 +1611,6 @@ function UpdateGenerator(generator)
             pctText.TextColor3 = Color3.fromRGB(255, 255, 255)
             pctText.TextSize = textSize
             pctText.Font = Enum.Font.GothamBold
-            pctText.TextXAlignment = Enum.TextXAlignment.Center
-            pctText.TextYAlignment = Enum.TextYAlignment.Center
             pctText.TextStrokeTransparency = 0.2
             pctText.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
             pctText.ZIndex = 10
@@ -1677,15 +1671,15 @@ function UpdateSCPEsp(root)
     end
 end
 
--- AUTO PARRY V5
+-- AUTO PARRY
 AP_parryCount = 0
 AP_hookedKillers = _G.AP_HookedKillers or {}
 _G.AP_HookedKillers = AP_hookedKillers
 
 AP_Config = {
-    Debounce = 0.05,
-    Radius = 15,
-    FaceSensitivity = 0.3,
+    Debounce = 0.02,
+    Radius = 20,
+    FaceSensitivity = 0.2,
 }
 
 local function AP_GetKillerType(char, player)
@@ -1716,7 +1710,7 @@ local function AP_ShouldParry(char, player, killerRoot, myRoot, dist)
         if velocity.Magnitude > 15 and dist < 15 then return true, "MASKED CHAINSAW" end
         return false, nil
     end
-    if velocity.Magnitude < 25 and dist < 12 and faceDot > 0.3 then return true, "BASIC ATTACK" end
+    if velocity.Magnitude < 25 and dist < 12 and faceDot > 0.2 then return true, "BASIC ATTACK" end
     return false, nil
 end
 
@@ -1758,11 +1752,16 @@ end
 
 function AP_PressRightClick()
     VirtualInputManager:SendMouseButtonEvent(0, 0, 1, true, game, 0)
-    task.wait()
+    task.wait(0.001)
     VirtualInputManager:SendMouseButtonEvent(0, 0, 1, false, game, 0)
 end
 
 function AP_PressParryButton()
+    for i = 1, 2 do
+        AP_PressRightClick()
+        task.wait(0.001)
+    end
+    
     if UIS.TouchEnabled then
         local btn = AP_FindParryButton()
         if btn and btn:IsA("GuiObject") then
@@ -1773,20 +1772,10 @@ function AP_PressParryButton()
             local y = pos.Y + size.Y / 2 + inset.Y
             for i = 1, 2 do
                 VirtualInputManager:SendTouchEvent(8823 + i, 0, x, y)
-                task.wait(0.005)
+                task.wait(0.001)
                 VirtualInputManager:SendTouchEvent(8823 + i, 2, x, y)
-                task.wait(0.005)
+                task.wait(0.001)
             end
-        else
-            for i = 1, 2 do
-                AP_PressRightClick()
-                task.wait(0.005)
-            end
-        end
-    else
-        for i = 1, 2 do
-            AP_PressRightClick()
-            task.wait(0.005)
         end
     end
 end
@@ -1834,8 +1823,9 @@ Players.PlayerAdded:Connect(function(p)
     end)
 end)
 
+-- AUTO PARRY LOOP (0.001s)
 task.spawn(function()
-    while task.wait(0.005) do
+    while task.wait(0.001) do
         if not AutoParry.Enabled then continue end
         local myRoot = getRoot()
         if not myRoot then continue end
@@ -1863,7 +1853,7 @@ task.spawn(function()
                         local velocity = killerRoot.AssemblyLinearVelocity
                         local prevVelocity = p.Character:GetAttribute("LastVelocity") or 0
                         p.Character:SetAttribute("LastVelocity", velocity.Magnitude)
-                        local velocitySpike = math.abs(velocity.Magnitude - prevVelocity) > 5
+                        local velocitySpike = math.abs(velocity.Magnitude - prevVelocity) > 6
                         if isAttacking or velocitySpike then
                             local shouldParry, reason = AP_ShouldParry(p.Character, p, killerRoot, myRoot, dist)
                             if velocitySpike and not reason then
@@ -2077,7 +2067,8 @@ function AP_UpdateCircle()
         AP_CreateCircle()
     end
 
-    local radius = AutoParry.ParryDistance    local myPos = root.Position
+    local radius = AutoParry.ParryDistance
+    local myPos = root.Position
     local yOffset = AP_ESPCircle.YOffset
 
     local killerInside = false
@@ -2109,8 +2100,8 @@ function AP_UpdateCircle()
     end
 end
 
-print("✅ [4/13] COSMIC - ESP + Auto Parry + Aimbot Senter (PENCET = LOCK)")-- =========================================================
--- SECTION 5/13 : FITUR AKTIF + LOOP UTAMA
+print("✅ [4/14] COSMIC - ESP + Auto Parry + Aimbot Senter")-- =========================================================
+-- SECTION 5/14 : FITUR AKTIF + LOOP UTAMA
 -- =========================================================
 
 RunService.RenderStepped:Connect(function()
@@ -2914,8 +2905,8 @@ task.spawn(function()
     end
 end)
 
-print("✅ [5/13] COSMIC - Fitur Aktif + Loop Utama Loaded")-- =========================================================
--- SECTION 6/13 : GUI COSMIC + TOMBOL + PANEL
+print("✅ [5/14] COSMIC - Fitur Aktif + Loop Utama Loaded")-- =========================================================
+-- SECTION 6/14 : GUI COSMIC + TOMBOL + PANEL
 -- =========================================================
 
 gui = Instance.new("ScreenGui")
@@ -3629,8 +3620,8 @@ closeBtn.MouseButton1Click:Connect(function()
     playToggleSound()
 end)
 
-print("✅ [6/13] COSMIC - GUI + Tombol + Panel Loaded")-- =========================================================
--- SECTION 7/13 : TAB UI PART 1
+print("✅ [6/14] COSMIC - GUI + Tombol + Panel Loaded")-- =========================================================
+-- SECTION 7/14 : TAB UI PART 1
 -- =========================================================
 
 sec = _G.Roooor_sec
@@ -3657,11 +3648,11 @@ makeTab("Survivor", "🏃", 1, function()
         end
     end)
     lbl("Hybrid + Predictive + Double Tap", C.FIRE_BRIGHT)
-    sl("Parry Radius", 5, 40, 15, function(v)
+    sl("Parry Radius", 5, 40, 20, function(v)
         AutoParry.ParryDistance = v
         AP_Config.Radius = v
     end)
-    sl("Debounce", 0.02, 0.5, 0.05, function(v)
+    sl("Debounce", 0.01, 0.5, 0.02, function(v)
         AP_PARRY_DEBOUNCE = v
         AP_Config.Debounce = v
     end)
@@ -3946,8 +3937,8 @@ makeTab("Moonwalk", "🕺", 5, function()
     tog("Use Slow Speed", true, function(s) Moonwalk.UseSlow = s end)
 end)
 
-print("✅ [7/13] COSMIC - Tab UI Part 1 Loaded")-- =========================================================
--- SECTION 8/13 : TAB UI PART 2
+print("✅ [7/14] COSMIC - Tab UI Part 1 Loaded")-- =========================================================
+-- SECTION 8/14 : TAB UI PART 2
 -- =========================================================
 
 sec = _G.Roooor_sec
@@ -4247,8 +4238,8 @@ makeTab("Hitbox", "📦", 10, function()
     end)
 end)
 
-print("✅ [8/13] COSMIC - Tab UI Part 2 Loaded")-- =========================================================
--- SECTION 9/13 : KEYBIND + CAMERA FIX + ANTI-ILANG MENU
+print("✅ [8/14] COSMIC - Tab UI Part 2 Loaded")-- =========================================================
+-- SECTION 9/14 : KEYBIND + CAMERA FIX + ANTI-ILANG MENU
 -- =========================================================
 
 -- KEYBIND V UNTUK MOONWALK
@@ -4312,9 +4303,7 @@ print("[KEYBIND] V = Moonwalk | K = Unlock Camera")
 AP_LastCamFix = 0
 
 task.spawn(function()
-    while task.wait(0.1) do
-        if not AP_CameraFix.Enabled then continue end
-
+    while task.wait(0.05) do
         local cam = workspace.CurrentCamera
         local char = LP.Character
         if not cam or not char then continue end
@@ -4322,7 +4311,10 @@ task.spawn(function()
         local hum = char:FindFirstChildOfClass("Humanoid")
         if not hum or hum.Health <= 0 then continue end
 
+        -- Skip kalau Aimbot Senter lagi HOLD
         if AimbotSenter.Enabled and AimbotSenter.HoldingSenter then continue end
+
+        -- Skip kalau GUI ada yang di-select
         if GuiService.SelectedObject then continue end
 
         local needFix = false
@@ -4343,7 +4335,7 @@ task.spawn(function()
 
         if needFix then
             local now = tick()
-            if now - AP_LastCamFix > 0.15 then
+            if now - AP_LastCamFix > 0.05 then
                 AP_LastCamFix = now
                 pcall(function()
                     cam.CameraType = Enum.CameraType.Custom
@@ -4367,13 +4359,15 @@ local function hookKillerParryAnim(char)
         local a = track.Animation
         if not a or not a.AnimationId then return end
         local id = a.AnimationId:match("%d+")
-        if id == "127096285501517" then
-            task.delay(0.3, function()
+        if id == "127096285501517"
+            or id == "123047897844134"
+            or id == "112166042383605" then
+            task.delay(0.1, function()
                 local cam = workspace.CurrentCamera
                 local myChar = LP.Character
                 if cam and myChar then
                     local myHum = myChar:FindFirstChildOfClass("Humanoid")
-                    if myHum then
+                    if myHum and not (AimbotSenter.Enabled and AimbotSenter.HoldingSenter) then
                         pcall(function()
                             cam.CameraType = Enum.CameraType.Custom
                             cam.CameraSubject = myHum
@@ -4421,7 +4415,7 @@ local function forceAllGuiResetOnSpawnFalse()
 end
 
 task.spawn(function()
-    while task.wait(0.5) do
+    while task.wait(0.2) do
         pcall(forceAllGuiResetOnSpawnFalse)
 
         if not gui or not gui.Parent then
@@ -4429,6 +4423,7 @@ task.spawn(function()
             if existing then
                 gui = existing
                 gui.ResetOnSpawn = false
+                gui.Enabled = true
             end
         end
 
@@ -4470,9 +4465,9 @@ end)
 
 -- Respawn — Menu tetap ada
 LP.CharacterAdded:Connect(function(char)
-    task.wait(2)
-    print("[RESPAWN] Menu restored")
+    task.wait(1)
     pcall(forceAllGuiResetOnSpawnFalse)
+    print("[RESPAWN] Menu restored")
 end)
 
 -- Create FPS/Ping GUI
@@ -4515,9 +4510,9 @@ task.spawn(function()
     end
 end)
 
-print("✅ [9/13] COSMIC - Keybind + Camera Fix + Anti-Ilang Menu Loaded")
+print("✅ [9/14] COSMIC - Keybind + Camera Fix + Anti-Ilang Menu")
 print("⌨️ Keybind: V = Moonwalk | K = Unlock Camera")-- =========================================================
--- SECTION 10/13 : LOGIC FITUR BARU + FIX FOV BIND
+-- SECTION 10/14 : LOGIC FITUR BARU + FIX FOV BIND
 -- =========================================================
 
 -- AUTO WIGGLE LOOP
@@ -4726,8 +4721,63 @@ task.spawn(function()
     end)
 end)
 
-print("✅ [10/13] COSMIC - Logic Fitur Baru Loaded")-- =========================================================
--- SECTION 11/13 : PRINT FINAL
+-- HITBOX LOOP
+task.spawn(function()
+    while task.wait(0.3) do
+        if not Hitbox.Enabled then
+            hitboxClearAll()
+            continue
+        end
+
+        local myRoot = getRoot()
+        if not myRoot then continue end
+        local myTeam = LP.Team and LP.Team.Name or ""
+
+        for _, p in pairs(Players:GetPlayers()) do
+            if p ~= LP and p.Character then
+                local targetTeam = p.Team and p.Team.Name or ""
+                local shouldHit = false
+
+                if Hitbox.Mode == "Auto" then
+                    if myTeam == "Survivors" and targetTeam == "Killer" then
+                        shouldHit = true
+                    elseif myTeam == "Killer" and targetTeam == "Survivors" then
+                        shouldHit = true
+                    end
+                elseif Hitbox.Mode == "Killer" and targetTeam == "Killer" then
+                    shouldHit = true
+                elseif Hitbox.Mode == "Survivor" and targetTeam == "Survivors" then
+                    shouldHit = true
+                end
+
+                if shouldHit then
+                    local hrp = p.Character:FindFirstChild("HumanoidRootPart")
+                    local hum = p.Character:FindFirstChildOfClass("Humanoid")
+                    if hrp and hum and hum.Health > 0 then
+                        local dist = (hrp.Position - myRoot.Position).Magnitude
+                        if not HitboxTextOriginalSizes[hrp] then
+                            HitboxTextOriginalSizes[hrp] = hrp.Size
+                        end
+                        if dist <= Hitbox.Size then
+                            hrp.Size = Vector3.new(Hitbox.Size, Hitbox.Size, Hitbox.Size)
+                            hrp.Transparency = 1
+                            hrp.CanCollide = not Hitbox.WallBang
+                        end
+
+                        local color = (targetTeam == "Killer")
+                            and Hitbox.ColorKiller
+                            or Hitbox.ColorSurvivor
+
+                        hitboxCreateText(hrp, Hitbox.Size, color)
+                    end
+                end
+            end
+        end
+    end
+end)
+
+print("✅ [10/14] COSMIC - Logic Fitur Baru Loaded")-- =========================================================
+-- SECTION 11/14 : PRINT FINAL
 -- =========================================================
 task.wait(0.5)
 
@@ -4790,12 +4840,12 @@ print("║     -> TP ke Finish Line                 ║")
 print("╠══════════════════════════════════════════╣")
 print("║  CAMERA FIX (ANTI-LOCK)                  ║")
 print("║     -> Auto unlock setelah parry         ║")
-print("║     -> Force camera tiap 0.1s            ║")
+print("║     -> Force camera tiap 0.05s           ║")
 print("║     -> Skip kalau Aimbot Senter HOLD     ║")
 print("╠══════════════════════════════════════════╣")
 print("║  ANTI-ILANG MENU                         ║")
 print("║     -> ResetOnSpawn = false              ║")
-print("║     -> Recovery loop 0.5s                ║")
+print("║     -> Recovery loop 0.2s                ║")
 print("║     -> Menu TETEP ADA pas respawn        ║")
 print("║     -> Menu TETEP ADA pas execute ulang  ║")
 print("╠══════════════════════════════════════════╣")
@@ -4806,9 +4856,9 @@ print("╠═══════════════════════�
 print("║  Buka menu: Klik tombol C                ║")
 print("╚══════════════════════════════════════════╝")
 
-print("✅ [11/13] COSMIC - FINAL LOADED!")
+print("✅ [11/14] COSMIC - FINAL LOADED!")
 print("🎯 Klik tombol C untuk buka menu")-- =========================================================
--- SECTION 12/13 : AIMBOT TAB (KILLER AIMLOCK)
+-- SECTION 12/14 : AIMBOT TAB (KILLER AIMLOCK)
 -- =========================================================
 
 sec = _G.Roooor_sec
@@ -5010,13 +5060,6 @@ function Aimlock_CreateFloatingGUI()
     hdrCorner.CornerRadius = UDim.new(0, 14)
     hdrCorner.Parent = hdr
 
-    local hdrPatch = Instance.new("Frame")
-    hdrPatch.Size = UDim2.new(1, 0, 0, 14)
-    hdrPatch.Position = UDim2.new(0, 0, 1, -14)
-    hdrPatch.BackgroundColor3 = Color3.fromRGB(60, 15, 25)
-    hdrPatch.BorderSizePixel = 0
-    hdrPatch.Parent = hdr
-
     local ttl = Instance.new("TextLabel")
     ttl.Size = UDim2.new(1, -40, 1, 0)
     ttl.Position = UDim2.new(0, 10, 0, 0)
@@ -5124,8 +5167,8 @@ makeTab("Aimbot", "🎯", 6, function()
     end)
 end)
 
-print("✅ [12/13] COSMIC - AIMBOT TAB Loaded")-- =========================================================
--- SECTION 13/13 : ANTI-ILANG MENU + AUTO RECOVERY
+print("✅ [12/14] COSMIC - AIMBOT TAB Loaded")-- =========================================================
+-- SECTION 13/14 : ANTI-ILANG MENU + AUTO RECOVERY
 -- =========================================================
 
 pcall(function()
@@ -5151,7 +5194,7 @@ local function ForceResetOnSpawnFalse()
 end
 
 task.spawn(function()
-    while task.wait(2) do
+    while task.wait(0.2) do
         pcall(ForceResetOnSpawnFalse)
     end
 end)
@@ -5166,6 +5209,7 @@ function RecreateAllGUI()
         if existing then
             gui = existing
             gui.ResetOnSpawn = false
+            gui.Enabled = true
             print("[RECOVERY] CosmicHub recovered")
         else
             warn("[RECOVERY] CosmicHub ilang, re-execute SC...")
@@ -5217,15 +5261,15 @@ function RecreateAllGUI()
 end
 
 task.spawn(function()
-    while task.wait(1) do
+    while task.wait(0.5) do
         pcall(RecreateAllGUI)
     end
 end)
 
 LP.CharacterAdded:Connect(function(char)
-    task.wait(2)
+    task.wait(1)
     print("[RESPAWN] Menu restored - fitur manual")
-    task.wait(0.5)
+    task.wait(0.3)
     pcall(RecreateAllGUI)
     pcall(ForceResetOnSpawnFalse)
     print("[RESPAWN] Selesai!")
@@ -5242,7 +5286,7 @@ task.spawn(function()
                 task.wait(3)
                 pcall(RecreateAllGUI)
                 pcall(ForceResetOnSpawnFalse)
-                print("[PLACE-CHANGE] Menu restored - fitur manual")
+                print("[PLACE-CHANGE] Menu restored")
             end
         end)
     end
@@ -5253,18 +5297,289 @@ print("════════════════════════�
 print("  SECTION 13 - ANTI-ILANG MENU")
 print("═══════════════════════════════════════════")
 print("  ✅ ResetOnSpawn = false (semua GUI)")
-print("  ✅ Force loop tiap 2 detik")
-print("  ✅ Recovery loop tiap 1 detik")
+print("  ✅ Force loop tiap 0.2 detik")
+print("  ✅ Recovery loop tiap 0.5 detik")
 print("  ✅ Auto re-execute kalo GUI ilang total")
-print("  ❌ NO auto apply fitur")
 print("  ✅ Menu restored pas respawn")
 print("  ✅ Menu restored pas pindah place")
 print("═══════════════════════════════════════════")
-print("✅ [13/13] ANTI-ILANG MENU LOADED")
+print("✅ [13/14] ANTI-ILANG MENU LOADED")
 print("")
 print("🎯 Klik tombol C untuk buka menu")
 print("🛡️ Auto Parry: Tab Survivor")
 print("🔦 Aimbot Senter: PENCET = LOCK | GAK PENCET = BEBAS")
 print("🦴 Korblox: Tab Visual (Mesh 902942096 | Offset 0.80)")
 print("👤 Headless: Tab Misc / Visual (FULL)")
+print("")-- =========================================================
+-- SECTION 14/14 : FINAL FIX (AUTO PARRY + CAMERA + MENU)
+-- =========================================================
+
+-- ============================================
+-- 14.1 AUTO PARRY - TRIPLE LAYER DETECTION
+-- ============================================
+AP_v14_Count = 0
+AP_v14_LastParry = 0
+AP_v14_Config = {
+    Debounce = 0.015,
+    Radius = 25,
+    MinVelocity = 6,
+    SpamTap = 4,
+}
+
+function AP_v14_PressParry()
+    for i = 1, 2 do
+        VirtualInputManager:SendMouseButtonEvent(0, 0, 1, true, game, 0)
+        task.wait(0.001)
+        VirtualInputManager:SendMouseButtonEvent(0, 0, 1, false, game, 0)
+        task.wait(0.001)
+    end
+
+    local parryBtn = AP_FindParryButton()
+    if parryBtn and parryBtn:IsA("GuiObject") then
+        local pos = parryBtn.AbsolutePosition
+        local size = parryBtn.AbsoluteSize
+        local inset = GuiService:GetGuiInset()
+        local x = pos.X + size.X / 2 + inset.X
+        local y = pos.Y + size.Y / 2 + inset.Y
+        for i = 1, AP_v14_Config.SpamTap do
+            VirtualInputManager:SendTouchEvent(9900 + i, 0, x, y)
+            task.wait(0.001)
+            VirtualInputManager:SendTouchEvent(9900 + i, 2, x, y)
+            task.wait(0.001)
+        end
+    end
+
+    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Space, false, game)
+    task.wait(0.001)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Space, false, game)
+end
+
+function AP_v14_IsAttacking(killerChar, killerHum)
+    local animator = killerHum:FindFirstChildOfClass("Animator")
+    if animator then
+        for _, track in ipairs(animator:GetPlayingAnimationTracks()) do
+            local a = track.Animation
+            if a and a.AnimationId then
+                local id = a.AnimationId:match("%d+")
+                if SkipAnims and SkipAnims[id] then
+                    return false
+                end
+                if KillerAnims["rbxassetid://" .. id] then
+                    return true
+                end
+            end
+        end
+    end
+
+    local root = killerChar:FindFirstChild("HumanoidRootPart")
+    if root then
+        if root.AssemblyLinearVelocity.Magnitude > AP_v14_Config.MinVelocity then
+            return true
+        end
+    end
+
+    if killerChar:GetAttribute("Attacking") == true then return true end
+    if killerChar:GetAttribute("IsAttacking") == true then return true end
+
+    return false
+end
+
+task.spawn(function()
+    while task.wait(0.001) do
+        if not AutoParry.Enabled then continue end
+
+        local myRoot = getRoot()
+        if not myRoot then continue end
+        local myHum = LP.Character and LP.Character:FindFirstChildOfClass("Humanoid")
+        if not myHum or myHum.Health <= 0 then continue end
+
+        for _, p in pairs(Players:GetPlayers()) do
+            if p ~= LP and p.Character and p.Team and p.Team.Name == "Killer" then
+                local kRoot = p.Character:FindFirstChild("HumanoidRootPart")
+                local kHum = p.Character:FindFirstChildOfClass("Humanoid")
+
+                if kRoot and kHum and kHum.Health > 0 then
+                    local dist = (kRoot.Position - myRoot.Position).Magnitude
+                    if dist <= AP_v14_Config.Radius then
+                        if AP_v14_IsAttacking(p.Character, kHum) then
+                            local now = tick()
+                            if now - AP_v14_LastParry > AP_v14_Config.Debounce then
+                                AP_v14_LastParry = now
+                                AP_v14_PressParry()
+                                AP_v14_Count = AP_v14_Count + 1
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
+print("✅ [14/14] Auto Parry - Triple Layer Loaded")
+
+-- ============================================
+-- 14.2 NO CAMERA LOCK - FORCE UNLOCK
+-- ============================================
+task.spawn(function()
+    while task.wait(0.03) do
+        local cam = workspace.CurrentCamera
+        local char = LP.Character
+        if not cam or not char then continue end
+
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if not hum then continue end
+
+        if AimbotSenter.Enabled and AimbotSenter.HoldingSenter then
+            continue
+        end
+
+        pcall(function()
+            if cam.CameraType ~= Enum.CameraType.Custom then
+                cam.CameraType = Enum.CameraType.Custom
+            end
+            if cam.CameraSubject ~= hum then
+                cam.CameraSubject = hum
+            end
+        end)
+    end
+end)
+
+local function ForceUnlockV14()
+    task.spawn(function()
+        task.wait(0.05)
+        local cam = workspace.CurrentCamera
+        local char = LP.Character
+        if cam and char then
+            local hum = char:FindFirstChildOfClass("Humanoid")
+            if hum and not (AimbotSenter.Enabled and AimbotSenter.HoldingSenter) then
+                pcall(function()
+                    cam.CameraType = Enum.CameraType.Custom
+                    cam.CameraSubject = hum
+                    cam.CameraMode = Enum.CameraMode.Classic
+                end)
+            end
+        end
+    end)
+end
+
+local function HookKillerUnlockV14(char)
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    if not hum then return end
+    local animator = hum:FindFirstChildOfClass("Animator")
+    if not animator then return end
+
+    animator.AnimationPlayed:Connect(function(track)
+        local a = track.Animation
+        if not a or not a.AnimationId then return end
+        local id = a.AnimationId:match("%d+")
+        if id == "127096285501517" or id == "123047897844134" or id == "112166042383605" then
+            ForceUnlockV14()
+        end
+    end)
+end
+
+for _, p in pairs(Players:GetPlayers()) do
+    if p ~= LP and p.Character and p.Team and p.Team.Name == "Killer" then
+        task.spawn(function() HookKillerUnlockV14(p.Character) end)
+    end
+    p.CharacterAdded:Connect(function(c)
+        task.wait(1)
+        if p.Team and p.Team.Name == "Killer" then
+            HookKillerUnlockV14(c)
+        end
+    end)
+end
+
+LP.CharacterAdded:Connect(function(char)
+    task.wait(1)
+    local cam = workspace.CurrentCamera
+    local hum = char:WaitForChild("Humanoid", 5)
+    if cam and hum then
+        pcall(function()
+            cam.CameraType = Enum.CameraType.Custom
+            cam.CameraSubject = hum
+        end)
+    end
+end)
+
+print("✅ [14/14] No Camera Lock Loaded")
+
+-- ============================================
+-- 14.3 MENU PERMANEN - FORCE RECREATE
+-- ============================================
+local function ForceGUIV14()
+    for _, g in ipairs(PG:GetChildren()) do
+        if g:IsA("ScreenGui") then
+            pcall(function()
+                g.ResetOnSpawn = false
+                g.Enabled = true
+            end)
+        end
+    end
+end
+
+task.spawn(function()
+    while task.wait(0.15) do
+        pcall(ForceGUIV14)
+
+        if not gui or not gui.Parent then
+            local existing = PG:FindFirstChild("CosmicHub")
+            if existing then
+                gui = existing
+                gui.ResetOnSpawn = false
+                gui.Enabled = true
+            end
+        end
+
+        if not fpsPingGui or not fpsPingGui.Parent then
+            local existing = PG:FindFirstChild("CosmicFPSPing")
+            if existing then
+                fpsPingGui = existing
+                fpsPingGui.ResetOnSpawn = false
+            else
+                pcall(createFPSPingGui)
+            end
+        end
+
+        if not mwBtnGui or not mwBtnGui.Parent then
+            local existing = PG:FindFirstChild("MW_BottomBtn")
+            if existing then
+                mwBtnGui = existing
+                mwBtnGui.ResetOnSpawn = false
+            end
+        end
+
+        if not killFeedGui or not killFeedGui.Parent then
+            local existing = PG:FindFirstChild("CosmicKillFeed")
+            if existing then
+                killFeedGui = existing
+                killFeedGui.ResetOnSpawn = false
+            end
+        end
+
+        if not AimbotLaserGui or not AimbotLaserGui.Parent then
+            local existing = PG:FindFirstChild("AimbotLaserESP")
+            if existing then
+                AimbotLaserGui = existing
+                AimbotLaserGui.ResetOnSpawn = false
+            end
+        end
+    end
+end)
+
+LP.CharacterAdded:Connect(function(char)
+    task.wait(0.3)
+    pcall(ForceGUIV14)
+end)
+
+print("✅ [14/14] Menu Permanen Loaded")
+
+print("")
+print("═══════════════════════════════════════════")
+print("  ✅ [14/14] SECTION 14 LOADED")
+print("  🛡️ Auto Parry: TRIPLE LAYER")
+print("  📷 No Camera Lock: FORCE UNLOCK")
+print("  🖥️  Menu Permanen: FORCE RECREATE")
+print("═══════════════════════════════════════════")
 print("")
